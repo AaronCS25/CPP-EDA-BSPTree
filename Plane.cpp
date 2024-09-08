@@ -3,25 +3,37 @@
 NType Plane::distance(const Point3D &p) const {
     Point3D r0 = this->_p;
     Vector3D n = this->_n.unit();
-    
+
     return n.dotProduct(p - r0);
 }
 
 bool Plane::intersects(const Line &l) const {
-    Point3D r0 = _p;
     Vector3D n = this->_n;
+    Vector3D v = l.getUnit();
+
+    if (n.dotProduct(v) != 0) { return true; }
+
+    return false;
+}
+
+Point3D Plane::getIntersectPoint(const Line &l) const {
+    Vector3D n = this->_n;
+    Point3D r0 = _p;
 
     Point3D P = l.getPoint();
     Vector3D v = l.getUnit();
 
-    if (n.dotProduct(v) == 0 && n.dotProduct(P-r0) != 0) { return false; }
+    NType numerator = n.dotProduct(P-r0);
+    NType denominator = n.dotProduct(v);
 
-    return true;
-}
+    if (denominator == 0) {
+        throw std::runtime_error("La línea es paralela al plano y no intersecta.");
+    }
 
-Point3D Plane::getIntersectPoint(const Line    &l) const {
-    // TODO: Implement getIntersectPoint for Plane
-    return Point3D();
+    NType t = numerator / denominator;
+    Point3D iPoint = P + v * t;
+    
+    return iPoint;
 }
 
 bool Plane::contains(const Point3D &p) const {
