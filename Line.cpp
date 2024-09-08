@@ -11,17 +11,30 @@ Line LineSegment::getLine() const {
 }
 
 bool Line::isParallel(const Line& l) const {
-    // TODO: Implement isParallel(Line) function
+    Vector3D v1 = this->getUnit();
+    Vector3D v2 = l.getUnit();
+
+    if (v1 == v2 || v1 == -v2) { return true; }
+
     return false;
 }
 
 bool Line::isParallel(const Vector3D& v) const {
-    // TODO: Implement isParallel(Vector3D) function
+
+    Vector3D v1 = this->getUnit();
+    Vector3D v2 = v.unit();
+
+    if (v1 == v2 || v1 == -v2) { return true; }
+
     return false;
 }
 
 bool Line::isParallel(const LineSegment& l) const {
-    // TODO: Implement isParallel(LineSegment) function
+    Vector3D v1 = this->getUnit();
+    Vector3D v2 = Vector3D(l.getP2() - l.getP1()).unit();
+
+    if (v1 == v2 || v1 == -v2) { return true; }
+
     return false;
 }
 
