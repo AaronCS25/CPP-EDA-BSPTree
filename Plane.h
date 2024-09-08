@@ -15,7 +15,9 @@ public:
     Plane(const Point3D &point, const Vector3D &normal) : _p(point), _n(normal) {}
 
     NType    distance(const Point3D &p) const;
-    Point3D intersect(const Line    &l) const;
+    
+    bool intersects(const Line    &l) const;
+    Point3D getIntersectPoint(const Line    &l) const;
 
     // Contain
     bool contains(const Point3D &p) const;

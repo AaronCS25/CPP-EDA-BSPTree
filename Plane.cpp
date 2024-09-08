@@ -9,8 +9,20 @@ NType Plane::distance(const Point3D &p) const {
     return (a*(x-x0) + b*(y-y0) + c*(z-z0)) / sqrt(a*a + b*b + c*c) ;
 }
 
-Point3D Plane::intersect(const Line &l) const {
-    // TODO: Implement intersect function
+bool Plane::intersects(const Line &l) const {
+    Point3D r0 = _p;
+    Vector3D n = this->_n;
+
+    Point3D P = l.getPoint();
+    Vector3D v = l.getUnit();
+
+    if (n.dotProduct(v) == 0 && n.dotProduct(P-r0) != 0) { return false; }
+
+    return true;
+}
+
+Point3D Plane::getIntersectPoint(const Line    &l) const {
+    // TODO: Implement getIntersectPoint for Plane
     return Point3D();
 }
 
