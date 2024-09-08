@@ -37,12 +37,12 @@ Point3D Plane::getIntersectPoint(const Line &l) const {
 }
 
 bool Plane::contains(const Point3D &p) const {
-    // TODO: Implement contains(Point3D) function
+    if (this->distance(p) == 0) { return true; }
     return false;
 }
 
 bool Plane::contains(const Line &l) const {
-    // TODO: Implement contains(Line) function
+    if (!this->intersects(l) && this->contains(l.getPoint())) { return true; }
     return false;
 }
 
