@@ -1,8 +1,13 @@
 #include "Line.h"
 
 Line LineSegment::getLine() const {
-    // TODO: Implement getLine() function
-    return Line();
+    Point3D p;
+    Vector3D v;
+
+    p = this->getP1();
+    v = Vector3D(this->getP2() - this->getP1()).unit();
+    
+    return Line(p, v);
 }
 
 bool Line::isParallel(const Line& l) const {
