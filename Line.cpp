@@ -38,17 +38,18 @@ bool Line::isParallel(const LineSegment& l) const {
     return false;
 }
 
-bool Line::isOrthogonal(const Line& l) const {
-    // TODO: Implement isOrthogonal(Line) function
+bool Line::isOrthogonal(const Vector3D& v) const {
+    Vector3D v1 = this->v;
+
+    if (v1.dotProduct(v) == 0) { return true; }
+
     return false;
 }
 
-bool Line::isOrthogonal(const Vector3D& v) const {
-    // TODO: Implement isOrthogonal(Vector3D) function
-    return false;
+bool Line::isOrthogonal(const Line& l) const {
+    return isOrthogonal(l.v);
 }
 
 bool Line::isOrthogonal(const LineSegment& l) const {
-    // TODO: Implement isOrthogonal(LineSegment) function
-    return false;
+    return isOrthogonal(l.getLine());
 }
