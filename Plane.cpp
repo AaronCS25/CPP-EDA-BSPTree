@@ -1,8 +1,12 @@
 #include "Plane.h"
 
 NType Plane::distance(const Point3D &p) const {
-    // TODO: Implement distance function
-    return 0;
+    NType a = _n.getX(), b = _n.getY(), c = _n.getZ();
+    NType x0 = _p.getX(), y0 = _p.getY(), z0 = _p.getZ();
+
+    NType x = p.getX(), y = p.getY(), z = p.getZ();
+
+    return (a*(x-x0) + b*(y-y0) + c*(z-z0)) / sqrt(a*a + b*b + c*c) ;
 }
 
 Point3D Plane::intersect(const Line &l) const {
