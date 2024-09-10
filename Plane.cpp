@@ -97,13 +97,16 @@ NType Polygon::area() const {
 }
 
 bool Plane::operator==(const Plane &other) const {
-    // TODO: Implement the == operador
+    Vector3D n1 = this->_n.unit();
+    Vector3D n2 = other._n.unit();
+
+    if ((n1 == n2 || n1 == -n2) && this->contains(other._p)) { return true; }
+
     return false;
 }
 
 bool Plane::operator!=(const Plane &other) const {
-    // TODO: Implement the != operador
-    return false;
+    return !(*this == other);
 }
 
 bool Polygon::operator==(const Polygon &other) const {
