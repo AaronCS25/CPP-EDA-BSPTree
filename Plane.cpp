@@ -51,9 +51,22 @@ Plane Polygon::getPlane() const {
     return Plane(Point3D(), Vector3D());
 }
 
-Point3D Polygon::getNormal() const {
-    // TODO: Implement getNormal function
-    return Point3D();
+Vector3D Polygon::getNormal() const {
+    // TODO: Manejar colinealidad de puntos
+    Point3D p0 = vertices[0];
+    Point3D p1 = vertices[1];
+    Point3D p2 = vertices[2];
+
+    Vector3D v0 = p1 - p0;
+    Vector3D v1 = p2 - p0;
+
+    Vector3D normal = v0.crossProduct(v1);
+
+    if (normal.mag() == 0) {
+        throw std::runtime_error("Los puntos proporcionados son colineales.");
+    }
+
+    return normal.unit();
 }
 
 Point3D Polygon::getCentroid() const {

@@ -53,7 +53,7 @@ public:
     std::vector<Point3D> getVertices() const { return vertices; }
     Point3D getVertex(size_t index) const { return vertices[index]; }
     Plane   getPlane   () const;    // Get the plane of the polygon
-    Point3D getNormal  () const;    // Get the normal of the polygon
+    Vector3D getNormal  () const;    // Get the normal of the polygon
     Point3D getCentroid() const;    // Get the centroid of the polygon
 
     // Setters
