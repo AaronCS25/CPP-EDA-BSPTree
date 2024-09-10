@@ -47,8 +47,10 @@ bool Plane::contains(const Line &l) const {
 }
 
 Plane Polygon::getPlane() const {
-    // TODO: Implement getPlane function
-    return Plane(Point3D(), Vector3D());
+    Point3D p = vertices[0];
+    Vector3D normal = getNormal();
+
+    return Plane(p, normal);
 }
 
 Vector3D Polygon::getNormal() const {
