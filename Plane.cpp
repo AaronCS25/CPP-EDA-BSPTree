@@ -1,4 +1,5 @@
 #include "Plane.h"
+#include <algorithm>
 
 NType Plane::distance(const Point3D &p) const {
     Point3D r0 = this->_p;
@@ -110,11 +111,27 @@ bool Plane::operator!=(const Plane &other) const {
 }
 
 bool Polygon::operator==(const Polygon &other) const {
-    // TODO: Implement the == operador
-    return false;
+    size_t vertexSize1 = this->vertices.size();
+    size_t vertexSize2 = other.vertices.size();
+
+    if (vertexSize1 != vertexSize2) { return false; }
+
+    Point3D startPoint = this->vertices[0];
+    auto it = std::find(other.vertices.begin(), other.vertices.end(), startPoint);
+
+    if (it == other.vertices.end()) { return false; }
+
+    size_t startIdx = std::distance(other.vertices.begin(), it);
+
+    for (size_t i = 0; i < vertexSize1; ++i) {
+        if (this->vertices[i] != other.vertices[(startIdx + i) % vertexSize2]) {
+            return false;
+        }
+    }
+    
+    return true;
 }
 
 bool Polygon::operator!=(const Polygon &other) const {
-    // TODO: Implement the != operador
-    return false;
+    return !(*this==other);
 }
