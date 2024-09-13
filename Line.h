@@ -35,6 +35,8 @@ public:
 
     // Linea que contiene al segmento
     Line getLine() const;
+    bool intersects(LineSegment &l) const;
+    Point3D getIntersectPoint(LineSegment &l) const;
 
     // Imprimir
     friend std::ostream &operator<<(std::ostream &os, const LineSegment &l) {

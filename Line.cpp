@@ -10,6 +10,16 @@ Line LineSegment::getLine() const {
     return Line(p, v);
 }
 
+bool LineSegment::intersects(LineSegment &l) const {
+    // TODO: Implement logic of intersects
+    return false;
+}
+
+Point3D LineSegment::getIntersectPoint(LineSegment &l) const {
+    // TODO: Implement logic of getIntersectPoint
+    return Point3D();
+}
+
 bool Line::isParallel(const Line& l) const {
     Vector3D v1 = this->getUnit();
     Vector3D v2 = l.getUnit();
