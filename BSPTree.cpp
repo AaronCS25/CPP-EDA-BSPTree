@@ -33,7 +33,7 @@ void BSPNode::insert(const Polygon &polygon) {
         front->insert(splitPolygons.first);
         back->insert(splitPolygons.second);
     }
-    
+
     return;
 }
 
@@ -43,6 +43,9 @@ const Polygon* BSPNode::detectCollision(const LineSegment& traceLine) const {
 }
 
 void BSPTree::insert(const Polygon &polygon) {
-    // TODO: Implement the BSPTree insertion logic
+    if (!root) {
+        root = new BSPNode(polygon.getPlane());
+    }
+    root->insert(polygon);
     return;
 }
