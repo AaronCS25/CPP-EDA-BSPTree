@@ -78,8 +78,55 @@ Point3D Polygon::getCentroid() const {
 }
 
 bool Polygon::contains(const Point3D &p) const {
-    // TODO: Implement contains function
-    return false;
+    if (!this->getPlane().contains(p)) { return false; }
+
+    Point3D p1 = vertices[0];
+    Point3D p2 = vertices[1];
+    Point3D midpoint = (p1 + p2) / 2;
+
+    Vector3D direction = Vector3D(midpoint - p).unit();
+
+    Point3D min = vertices[0], max = vertices[0];
+    for (const auto& v : vertices) {
+        min = Point3D(std::min(min.getX(), v.getX()), std::min(min.getY(), v.getY()), std::min(min.getZ(), v.getZ()));
+        max = Point3D(std::max(max.getX(), v.getX()), std::max(max.getY(), v.getY()), std::max(max.getZ(), v.getZ()));
+    }
+
+    if (p.getX() < min.getX() || p.getX() > max.getX() ||
+        p.getY() < min.getY() || p.getY() > max.getY() ||
+        p.getZ() < min.getZ() || p.getZ() > max.getZ()) {
+        return false;
+    }
+
+    NType boundingBoxDiagonal = min.distance(max);
+    Point3D extendedPoint = p + (direction * boundingBoxDiagonal);
+
+    LineSegment ray(p, extendedPoint);
+
+    int intersections = 0;
+    for (size_t i = 0; i < vertices.size(); ++i) {
+        Point3D a = vertices[i];
+        Point3D b = vertices[(i + 1) % vertices.size()];
+        LineSegment edge(a, b);
+
+        if (a == p || b == p) { return true; }
+        // if (edge.contains(p)) { return true; }
+
+        if (ray.intersects(edge)) {
+            if (p == a || p == b) {
+                Point3D prev = vertices[(i - 1 + vertices.size()) % vertices.size()];
+                Point3D next = vertices[(i + 2) % vertices.size()];
+
+                if ((prev.getY() > p.getY() && next.getY() > p.getY()) ||
+                    (prev.getY() < p.getY() && next.getY() < p.getY())) {
+                    continue;
+                }
+            }
+            intersections++;
+        }
+    }
+
+    return (intersections % 2 == 1);
 }
 
 RelationType Polygon::relationWithPlane(const Plane &plane) const {
