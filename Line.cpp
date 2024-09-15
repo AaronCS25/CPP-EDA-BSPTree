@@ -18,7 +18,7 @@ bool LineSegment::intersects(LineSegment &l) const {
     Vector3D s = l.getP2() - l.getP1();
 
     Vector3D qp = q - p;
-    
+
     Vector3D rxs = r.crossProduct(s);
     NType rxsNorm = rxs.mag();
 
@@ -33,8 +33,29 @@ bool LineSegment::intersects(LineSegment &l) const {
 }
 
 Point3D LineSegment::getIntersectPoint(LineSegment &l) const {
-    // TODO: Implement logic of getIntersectPoint
-    return Point3D();
+    Point3D p = this->getP1();
+    Point3D q = l.getP1();
+
+    Vector3D r = this->getP2() - this->getP1();
+    Vector3D s = l.getP2() - l.getP1();
+
+    Vector3D qp = q - p;
+    
+    Vector3D rxs = r.crossProduct(s);
+    NType rxsNorm = rxs.mag();
+
+    if (rxsNorm == 0) {
+        throw std::runtime_error("Segments are parallel, no intersection point.");
+    }
+
+    NType t = qp.crossProduct(s).dotProduct(rxs) / rxsNorm;
+    NType u = qp.crossProduct(r).dotProduct(rxs) / rxsNorm;
+
+    if (!(t >= 0 && t <= 1 && u >= 0 && u <= 1)) {
+        throw std::runtime_error("Segments do not intersect.");
+    }
+
+    return p + r * t;
 }
 
 bool Line::isParallel(const Line& l) const {
