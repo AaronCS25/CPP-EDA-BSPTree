@@ -132,7 +132,7 @@ bool Polygon::contains(const Point3D &p) const {
 RelationType Polygon::relationWithPlane(const Plane &plane) const {
     Vector3D n = plane.getNormal();
 
-    if (n == this->getNormal() || n == -this->getNormal() && plane.contains(this->vertices[0])) {
+    if ((n == this->getNormal() || n == this->getNormal() * -1) && plane.contains(this->vertices[0])) {
         return RelationType::COINCIDENT;
     }
 
