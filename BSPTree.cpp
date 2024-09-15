@@ -5,7 +5,7 @@ void BSPNode::insert(const Polygon &polygon) {
     return;
 }
 
-const Polygon* detectCollision(const LineSegment& traceLine) {
+const Polygon* BSPNode::detectCollision(const LineSegment& traceLine) const {
     // TODO: Implement the detectCollision logic
     return nullptr;
 }
