@@ -135,8 +135,37 @@ RelationType Polygon::relationWithPlane(const Plane &plane) const {
 }
 
 std::pair<Polygon, Polygon> Polygon::split(const Plane &plane) const {
-    // TODO: Implement split function
-    return std::make_pair(Polygon(std::vector<Point3D>()), Polygon(std::vector<Point3D>()));
+    std::vector<Point3D> frontVertices;
+    std::vector<Point3D> backVertices;
+
+    // !Only support convex polygons
+
+    if (this->getPlane() == plane) {
+        throw std::runtime_error("The plane is the same as the polygon's plane.");
+    }
+
+    for (size_t i = 0; i < this->vertices.size(); i++)
+    {
+        NType currentDistance = plane.distance(this->vertices[i]);
+        NType nextDistance = plane.distance(this->vertices[(i + 1) % this->vertices.size()]);
+
+        if (currentDistance > 0) { frontVertices.push_back(this->vertices[i]);}
+        else if (currentDistance < 0) { backVertices.push_back(this->vertices[i]); }
+        else {
+            frontVertices.push_back(this->vertices[i]);
+            backVertices.push_back(this->vertices[i]);
+            continue;
+        }
+        
+        if (currentDistance > 0 && nextDistance < 0 || currentDistance < 0 && nextDistance > 0)
+        {
+            Point3D intersectionPoint = plane.getIntersectPoint(LineSegment(this->vertices[i], this->vertices[(i + 1) % this->vertices.size()]).getLine());
+            frontVertices.push_back(intersectionPoint);
+            backVertices.push_back(intersectionPoint);
+        }
+    }
+
+    return std::make_pair(Polygon(frontVertices), Polygon(backVertices));
 }
 
 NType Polygon::area() const {
