@@ -11,7 +11,24 @@ Line LineSegment::getLine() const {
 }
 
 bool LineSegment::intersects(LineSegment &l) const {
-    // TODO: Implement logic of intersects
+    Point3D p = this->getP1();
+    Point3D q = l.getP1();
+
+    Vector3D r = this->getP2() - this->getP1();
+    Vector3D s = l.getP2() - l.getP1();
+
+    Vector3D qp = q - p;
+    
+    Vector3D rxs = r.crossProduct(s);
+    NType rxsNorm = rxs.mag();
+
+    if (rxsNorm == 0) { return false; }
+
+    NType t = qp.crossProduct(s).dotProduct(rxs) / rxsNorm;
+    NType u = qp.crossProduct(r).dotProduct(rxs) / rxsNorm;
+
+    if (t >= 0 && t <= 1 && u >= 0 && u <= 1) { return true; }
+
     return false;
 }
 
