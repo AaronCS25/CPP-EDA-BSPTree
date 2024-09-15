@@ -39,6 +39,12 @@ public:
     Point3D operator+(const Point3D &p) const {
         return Point3D(_x + p._x, _y + p._y, _z + p._z);
     }
+    Point3D operator*(const NType k) const {
+        return Point3D(_x * k, _y * k, _z * k);
+    }
+    Point3D operator/(const NType k) const {
+        return Point3D(_x / k, _y / k, _z / k);
+    }
 
     // Print
     friend std::ostream &operator<<(std::ostream &os, const Point3D &p) {
