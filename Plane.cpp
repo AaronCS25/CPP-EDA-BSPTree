@@ -130,7 +130,27 @@ bool Polygon::contains(const Point3D &p) const {
 }
 
 RelationType Polygon::relationWithPlane(const Plane &plane) const {
-    // TODO: Implement relationWithPlane function
+    Vector3D n = plane.getNormal();
+
+    if (n == this->getNormal() || n == -this->getNormal() && plane.contains(this->vertices[0])) {
+        return RelationType::COINCIDENT;
+    }
+
+    bool front = false, back = false;
+
+    for (size_t i = 0; i < this->vertices.size(); i++)
+    {
+        NType distance = plane.distance(this->vertices[i]);
+
+        if (distance > 0) { front = true; }
+        else if (distance < 0) { back = true; }
+
+        if (front && back) { return RelationType::SPLIT; }
+    }
+
+    if (front) { return RelationType::IN_FRONT; }
+    if (back) { return RelationType::BEHIND; }
+    
     return RelationType::COINCIDENT;
 }
 
@@ -156,7 +176,7 @@ std::pair<Polygon, Polygon> Polygon::split(const Plane &plane) const {
             backVertices.push_back(this->vertices[i]);
             continue;
         }
-        
+
         if (currentDistance > 0 && nextDistance < 0 || currentDistance < 0 && nextDistance > 0)
         {
             Point3D intersectionPoint = plane.getIntersectPoint(LineSegment(this->vertices[i], this->vertices[(i + 1) % this->vertices.size()]).getLine());
