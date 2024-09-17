@@ -24,7 +24,7 @@ Point3D Plane::getIntersectPoint(const Line &l) const {
     Point3D P = l.getPoint();
     Vector3D v = l.getUnit();
 
-    NType numerator = n.dotProduct(P-r0);
+    NType numerator = n.dotProduct(r0 - P);
     NType denominator = n.dotProduct(v);
 
     if (denominator == 0) {
